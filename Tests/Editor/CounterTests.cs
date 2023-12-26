@@ -43,15 +43,13 @@ namespace CodeSmile.Tests
 		}
 
 		[TestCase(0, 1)] [TestCase(1, 2)] [TestCase(2, 5)]
-		public void Increment_MoreThanIntervalTimes_IsElapsed(Int32 interval, int overshoot)
+		public void Increment_MoreThanIntervalTimes_IsElapsed(Int32 interval, Int32 overshoot)
 		{
 			var counter = new IntervalCounter { Interval = interval };
 			counter.Start();
 
 			for (var i = 0; i < interval + overshoot; i++)
-			{
 				counter.Decrement();
-			}
 
 			Assert.True(counter.IsElapsed);
 		}

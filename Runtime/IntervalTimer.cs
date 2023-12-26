@@ -8,12 +8,58 @@ namespace CodeSmile.Time
 {
 	[Serializable] public struct IntervalTimer
 	{
-		[Tooltip("Time interval in seconds.")]
+		[Tooltip("Time in seconds until elapsed.")]
 		public Single Interval;
 		private Single m_Timer;
 
-		public void Start() => m_Timer = 0f;
-		public void Elapse() => m_Timer = Interval;
-		public Boolean IsElapsed(Single deltaTime) => (m_Timer += deltaTime) >= Interval;
+		/// <summary>
+		///     State of the internal Timer towards the goal (0f or negative).
+		/// </summary>
+		/// <remarks>
+		///     The internal timer runs from Interval down towards 0, and might even go negative. Benefits:
+		///     - Timer is unaffected by changes to Interval until restarted.
+		///     - Timer value speaks for itself: value '1.4' reads as '1.4 seconds until elapsed'
+		///     - Timer value 0 or less means the timer is elapsed.
+		/// </remarks>
+		public Single Timer => m_Timer;
+
+		/// <summary>
+		///     Returns true if the timer has elapsed, or started as elapsed.
+		/// </summary>
+		public Boolean IsElapsed => m_Timer <= 0f;
+
+		/// <summary>
+		///     Starts (restarts) the timer.
+		/// </summary>
+		/// <exception cref="ArgumentException">If Interval is negative (editor only)</exception>
+		public void Start()
+		{
+#if UNITY_EDITOR
+			if (Interval < 0f) throw new ArgumentException($"Interval is negative: {Interval}");
+#endif
+			m_Timer = Interval;
+		}
+
+		/// <summary>
+		///     Starts the timer in elapsed state. Sets Timer to 0f.
+		/// </summary>
+		/// <remarks>
+		///     Use this where you need a timer to fire on its first use rather than waiting out the first
+		///     Interval. For example a weapon should fire right after the reload timer/counter has elapsed
+		///     but subsequently should fire only at the Interval rate.
+		/// </remarks>
+		public void StartElapsed() => m_Timer = 0f;
+
+		/// <summary>
+		///     Decrements the timer by the amount of delta time.
+		/// </summary>
+		/// <exception cref="ArgumentException">If deltaTime is negative (editor only).</exception>
+		public void Decrement(Single deltaTime)
+		{
+#if UNITY_EDITOR
+			if (deltaTime < 0f) throw new ArgumentException($"DeltaTime is negative: {deltaTime}");
+#endif
+			m_Timer -= deltaTime;
+		}
 	}
 }

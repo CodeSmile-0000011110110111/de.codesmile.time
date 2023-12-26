@@ -28,7 +28,7 @@ namespace CodeSmile.Time
 		/// <remarks>
 		///     The internal counter runs from Interval down towards 0, and might even go negative. Benefits:
 		///     - Counter is unaffected by changes to Interval until restarted.
-		///     - Counter value speaks for itself: value '4' can read as 'four more increments until elapsed'
+		///     - Counter value speaks for itself: value '4' reads as 'four more increments until elapsed'
 		///     - Counter value 0 or negative values mean the counter is elapsed.
 		///     - Negative counter values mean the counter decrement overshot n times (may indicate an issue)
 		/// </remarks>
@@ -55,8 +55,8 @@ namespace CodeSmile.Time
 		///     Starts the counter in elapsed state. Sets Counter to 0.
 		/// </summary>
 		/// <remarks>
-		///     Use this where you need a counter to fire on its first use rather than waiting out the
-		///     Interval first. For example a weapon should fire right after the reload timer/counter has elapsed
+		///     Use this where you need a counter to fire on its first use rather than waiting out the first
+		///     Interval. For example a weapon should fire right after the reload timer/counter has elapsed
 		///     but subsequently should fire only at the Interval rate.
 		/// </remarks>
 		public void StartElapsed() => m_Counter = 0;
