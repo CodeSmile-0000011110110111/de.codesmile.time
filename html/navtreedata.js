@@ -24,12 +24,23 @@
 */
 var NAVTREE =
 [
-  [ "CodeSmile Time", "index.html", ]
+  [ "CodeSmile Time", "index.html", [
+    [ "CodeSmile Time - Change Log", "md__p_1_2de_8codesmile_8time_2_c_h_a_n_g_e_l_o_g.html", null ],
+    [ "Classes", "annotated.html", [
+      [ "Class List", "annotated.html", "annotated_dup" ],
+      [ "Class Members", "functions.html", [
+        [ "All", "functions.html", null ],
+        [ "Functions", "functions_func.html", null ],
+        [ "Variables", "functions_vars.html", null ],
+        [ "Properties", "functions_prop.html", null ]
+      ] ]
+    ] ]
+  ] ]
 ];
 
 var NAVTREEINDEX =
 [
-"index.html"
+"annotated.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
