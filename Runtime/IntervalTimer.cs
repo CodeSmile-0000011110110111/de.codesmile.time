@@ -27,6 +27,8 @@ namespace CodeSmile.Time
 		///     Returns true if the timer has elapsed, or started as elapsed.
 		/// </summary>
 		public Boolean IsElapsed => m_Timer <= 0f;
+		public Boolean IsStopped => m_Timer > Interval;
+		public Boolean IsRunning => m_Timer <= Interval;
 
 		/// <summary>
 		///     Starts (restarts) the timer.
@@ -39,6 +41,8 @@ namespace CodeSmile.Time
 #endif
 			m_Timer = Interval;
 		}
+
+		public void Stop() => m_Timer = Single.MaxValue;
 
 		/// <summary>
 		///     Starts the timer in elapsed state. Sets Timer to 0f.
@@ -54,12 +58,18 @@ namespace CodeSmile.Time
 		///     Decrements the timer by the amount of delta time.
 		/// </summary>
 		/// <exception cref="ArgumentException">If deltaTime is negative (editor only).</exception>
-		public void Decrement(Single deltaTime)
+		/// <returns>True if the timer is elapsed, false otherwise.</returns>
+		public Boolean Decrement(Single deltaTime)
 		{
 #if UNITY_EDITOR
 			if (deltaTime < 0f) throw new ArgumentException($"DeltaTime is negative: {deltaTime}");
+			if (IsStopped) throw new InvalidOperationException("Timer is stopped: Call Start() before Decrement()");
 #endif
+
 			m_Timer -= deltaTime;
+			return IsElapsed;
 		}
+
+		public Boolean DecrementIfRunning(Single deltaTime) => IsRunning && Decrement(deltaTime);
 	}
 }

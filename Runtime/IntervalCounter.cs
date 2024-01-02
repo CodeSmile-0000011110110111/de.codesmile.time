@@ -64,6 +64,11 @@ namespace CodeSmile.Time
 		/// <summary>
 		///     Decrements the counter by one.
 		/// </summary>
-		public void Decrement() => m_Counter--;
+		/// <returns>True if the counter is elapsed, false otherwise.</returns>
+		public bool Decrement()
+		{
+			m_Counter--;
+			return IsElapsed;
+		}
 	}
 }
